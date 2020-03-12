@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import br.com.organizerooms.enums.PerfilEnum;
 import br.com.organizerooms.models.Agendamento;
 import br.com.organizerooms.models.Equipamento;
+import br.com.organizerooms.models.Mensagem;
 import br.com.organizerooms.models.Participante;
 import br.com.organizerooms.models.Pessoa;
 import br.com.organizerooms.models.ReservaEquipamento;
@@ -14,6 +15,7 @@ import br.com.organizerooms.models.Sala;
 import br.com.organizerooms.models.Unidade;
 import br.com.organizerooms.repositorios.AgendamentoRepository;
 import br.com.organizerooms.repositorios.EquipamentoRepository;
+import br.com.organizerooms.repositorios.MensagemRepository;
 import br.com.organizerooms.repositorios.ParticipanteRepository;
 import br.com.organizerooms.repositorios.PessoaRepository;
 import br.com.organizerooms.repositorios.ReservaEquipamentoRepository;
@@ -50,6 +52,9 @@ public class OrganizeRooms implements CommandLineRunner {
 
     @Autowired
     ReservaEquipamentoRepository reservaEquipamentoRepository;
+
+    @Autowired
+    MensagemRepository mensagemRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(OrganizeRooms.class, args);
@@ -328,8 +333,7 @@ public class OrganizeRooms implements CommandLineRunner {
         salaRepository.save(sala4);
 
         Date ageData = new Date("2019/12/17");
-        
-        
+
         // COLOCAR UMA HORA A MAIS PARA NAO DAR DIFERENca NO FRONT
         Date ageHoraInicio1 = new Date("2019/12/17 08:00:00");
         Date ageHoraFim1 = new Date("2019/12/17 09:00:00");
@@ -360,7 +364,7 @@ public class OrganizeRooms implements CommandLineRunner {
                 "AGENDADO",
                 ageData,
                 ageHoraInicio2,
-                ageHoraFim2, 
+                ageHoraFim2,
                 calendar.getTime(),
                 calendar.getTime(),
                 sala1,
@@ -462,12 +466,39 @@ public class OrganizeRooms implements CommandLineRunner {
         ReservaEquipamento reserv1Age1 = new ReservaEquipamento(null, equipamento1, ageGravado);
 
         ReservaEquipamento reserv2Age2 = new ReservaEquipamento(null, equipamento2, ageGravado2);
-        
+
         ReservaEquipamento reserv2Age4 = new ReservaEquipamento(null, equipamento2, ageGravado4);
 
         reservaEquipamentoRepository.save(reserv1Age1);
         reservaEquipamentoRepository.save(reserv2Age2);
         reservaEquipamentoRepository.save(reserv2Age4);
 
+        Mensagem msg = new Mensagem(
+                null,
+                "Assunto E-mail",
+                "Nova Reunião Marcada por [RESERVA_RESPONSAVEL].",
+                1,
+                calendar.getTime(),
+                1L);
+
+        Mensagem msg2 = new Mensagem(
+                null,
+                "E-mail Participante Comum",
+                "Você possui uma nova reunião na data [RESERVA_DATA] no período das [RESERVA_HORA_INICIO] às [RESERVA_HORA_FIM] marcada por [RESERVA_RESPONSAVEL].",
+                2,
+                calendar.getTime(),
+                1L);
+
+        Mensagem msg3 = new Mensagem(
+                null,
+                "E-mail Participante Obrigatório",
+                "Você é uma pessoa Obrigatória na nova reunião marcada por [RESERVA_RESPONSAVEL] na data [RESERVA_DATA] no período das [RESERVA_HORA_INICIO] às [RESERVA_HORA_FIM].",
+                3,
+                calendar.getTime(),
+                1L);
+
+        mensagemRepository.save(msg);
+        mensagemRepository.save(msg2);
+        mensagemRepository.save(msg3);
     }
 }
