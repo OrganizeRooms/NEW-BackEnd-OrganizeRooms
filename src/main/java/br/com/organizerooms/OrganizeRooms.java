@@ -473,32 +473,5 @@ public class OrganizeRooms implements CommandLineRunner {
         reservaEquipamentoRepository.save(reserv2Age2);
         reservaEquipamentoRepository.save(reserv2Age4);
 
-        Mensagem msg = new Mensagem(
-                null,
-                "Assunto E-mail",
-                "Nova Reunião Marcada por [RESERVA_RESPONSAVEL].",
-                1,
-                calendar.getTime(),
-                1L);
-
-        Mensagem msg2 = new Mensagem(
-                null,
-                "E-mail Participante Comum",
-                "Você possui uma nova reunião na data [RESERVA_DATA] no período das [RESERVA_HORA_INICIO] às [RESERVA_HORA_FIM] marcada por [RESERVA_RESPONSAVEL].",
-                2,
-                calendar.getTime(),
-                1L);
-
-        Mensagem msg3 = new Mensagem(
-                null,
-                "E-mail Participante Obrigatório",
-                "Você é uma pessoa Obrigatória na nova reunião marcada por [RESERVA_RESPONSAVEL] na data [RESERVA_DATA] no período das [RESERVA_HORA_INICIO] às [RESERVA_HORA_FIM].",
-                3,
-                calendar.getTime(),
-                1L);
-
-        mensagemRepository.save(msg);
-        mensagemRepository.save(msg2);
-        mensagemRepository.save(msg3);
     }
 }
